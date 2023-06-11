@@ -1,19 +1,53 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './index.css';
+import './App.css';
 
 function App() {
   const [imageFile, setImageFile] = useState(null);
   const [excelFile, setExcelFile] = useState(null);
+  const [fontFile, setFontFile] = useState(false);
   const [fontSize, setFontSize] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const handleImageUpload = (e) => {
-    setImageFile(e.target.files[0]);
+  const handleImageUpload = (e) => {  
+    const file = e.target.files[0];
+    const maxSize = 20 * 1024 * 1024; // 20MB
+  
+    if (file && file.size > maxSize) {
+      setImageFile(null);
+      window.location.reload(false)
+      alert('Image size exceeds the maximum limit of 20MB.');
+    } else {
+      setImageFile(file);
+    }
   };
 
-  const handleExcelUpload = (e) => {
-    setExcelFile(e.target.files[0]);
+  const handleExcelUpload = (e) => {  
+    const file = e.target.files[0];
+    const maxSize = 4 * 1024 * 1024; // 20MB
+  
+    if (file && file.size > maxSize) {
+      setImageFile(null);
+      window.location.reload(false)
+      alert('Excel size exceeds the maximum limit of 4MB.');
+    } else {
+      setImageFile(file);
+    }
+  };
+
+  const handleFontFileUpload = (e) => {  
+    const file = e.target.files[0];
+    const maxSize = 2 * 1024 * 1024; // 20MB
+  
+    if (file && file.size > maxSize) {
+      setImageFile(null);
+      window.location.reload(false)
+      alert('Font File size exceeds the maximum limit of 2MB.');
+    } else {
+      setImageFile(file);
+    }
   };
 
   const handleFSChange = (e) => {
@@ -24,7 +58,7 @@ function App() {
     e.preventDefault();
 
     if (!imageFile || !excelFile || !fontSize) {
-      alert('Please upload both an image and an Excel file and select the font size if you havent.');
+      alert('Please upload an image, an Excel file, and select the font size.');
       return;
     }
 
@@ -34,6 +68,11 @@ function App() {
       const formData = new FormData();
       formData.append('image', imageFile);
       formData.append('excel', excelFile);
+      
+      if (fontFile !== false) {
+        formData.append('font_file', fontFile);
+      }
+
       formData.append('font_size', fontSize);
 
       const response = await axios.post('/upload', formData, {
@@ -50,35 +89,47 @@ function App() {
       link.remove();
       
       setError(null);
-    } catch (err) {
-      console.error('Error:', err);
-      setError('An error occurred while processing the files.');
+      
+    } catch (e) {
+      console.log(e);
+      setError('An error occurred while processing the files. Please try again.');
     } finally {
       setLoading(false);
+      window.location.reload(false);
     }
   };
 
   return (
-    <div>
+    <div className='App'>
+      <div className='form'>
       <h1>Upload Files</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="image">Image File:</label>
-          <input type="file" id="image" accept="image/*" onChange={handleImageUpload} />
+          <label className='title_label'>Upload Image File:</label>
+          <label htmlFor="image" className="upload-btn">Browse Files</label>
+          <input type="file" id="image" accept="image/*" onChange={handleImageUpload} /><br />
+          <span className="file-name">{imageFile && imageFile.name}</span>
+        </div>
+        <div><br />
+          <label className='title_label'>Upload Excel File<br />Excel file should only have one column named specifically "Name"</label>
+          <label htmlFor="excel" className="upload-btn">Browse Files</label>
+          <input type="file" id="excel" accept=".xlsx, .xls" onChange={handleExcelUpload} /> <br />
+          <span className="file-name">{excelFile && excelFile.name}</span>
         </div>
         <div>
-          <label htmlFor="excel">Excel File:</label>
-          <input type="file" id="excel" accept=".xlsx, .xls" onChange={handleExcelUpload} />
+        <br /><label htmlFor="font_file">Upload Font File: <br />Default: "Montserrat Black" if no font file is uploaded</label><br />
+          <input type="file" id="font_file" accept=".ttf" onChange={handleFontFileUpload} />
         </div>
         <div>
-          <label htmlFor="font_size">Font Size:</label>
-          <input type="number" id="font_size" name="font_size" min="1" max="999" onChange={handleFSChange} />
+        <br /><label htmlFor="font_size">Enter Font Size ( 1 to 999 ) </label><br /> 
+          <input type="number" id="font_size" min="1" max="999" onChange={handleFSChange} />
         </div>
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? 'Processing...' : 'Generate Certificates'}
+        <button className="submit" type="submit" disabled={isLoading}>
+          {isLoading ? 'Processing...' : 'Generate'}
         </button>
         {error && <p>{error}</p>}
       </form>
+      </div>
     </div>
   );
 }

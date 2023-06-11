@@ -5,13 +5,17 @@ from PIL import Image, ImageDraw, ImageFont
 import io
 import pandas as pd
 import zipfile
+from waitress import serve
+import logging
+logger = logging.getLogger('waitress')
+logger.setLevel(logging.INFO)
 
 app = Flask(__name__)
 
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'xlsx', 'xls', '.ttf'}
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'xlsx', 'xls', 'ttf'}
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -33,9 +37,17 @@ def create_image(size, message, font, fontColor, image):
 
 @app.route('/upload', methods=['POST'])
 def upload_files():
+    global font_flag 
+    font_flag = False
     image_file = request.files['image']
     excel_file = request.files['excel']
-    font_file = request.files['font']
+    
+    try:
+        font_file = request.files['font_file']
+    
+    except:
+        font_file = None
+
     font_size = int(request.form['font_size'])
 
     if image_file and allowed_file(image_file.filename) and excel_file and allowed_file(excel_file.filename):
@@ -44,9 +56,10 @@ def upload_files():
             font_filename = secure_filename(font_file.filename)
             font_file_path = os.path.join(app.config['UPLOAD_FOLDER'], font_filename)
             font_file.save(font_file_path)
+            font_flag = True
         
         else:
-            font_file_path = os.path.join("", "default_font.tff")
+            font_file_path = os.path.join(app.config['UPLOAD_FOLDER'], "default_font.ttf")
 
         image_filename = secure_filename(image_file.filename)
         excel_filename = secure_filename(excel_file.filename)
@@ -95,11 +108,13 @@ def upload_files():
         
         os.remove(image_file_path)
         os.remove(excel_file_path)
-        os.remove(font_file_path)
+
+        if(font_flag == True):
+            os.remove(font_file_path)
         
         return response
     
     return jsonify({'error': 'Invalid file(s) or file extension not allowed.'}), 400
 
 if __name__ == '__main__':
-    app.run()
+        serve(app, host='0.0.0.0', port=5000)
