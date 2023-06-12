@@ -80,7 +80,7 @@ function App() {
 
       formData.append('font_size', fontSize);
 
-      const response = await axios.post('https://certi-gen-v5kq3.ondigitalocean.app', formData, {
+      const response = await axios.post('https://certi-gen-v5kq3.ondigitalocean.app/process', formData, {
         headers: { 'Content-Type': 'multipart/form-data', 'Access-Control-Allow-Origin': '*' },
         responseType: 'blob',
       });
