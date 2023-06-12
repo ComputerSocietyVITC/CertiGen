@@ -78,7 +78,7 @@ function App() {
 
       formData.append('font_size', fontSize);
 
-      const response = await axios.post('http://localhost:5000/process', formData, {
+      const response = await axios.post('https://certi-gen-api.onrender.com/process', formData, {
         headers: { 'Content-Type': 'multipart/form-data', 'Access-Control-Allow-Origin': '*' },
         responseType: 'blob',
       });
