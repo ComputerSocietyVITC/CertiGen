@@ -1,7 +1,6 @@
 
 .App {
   text-align: center;
-  background-color: #282c34;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -12,21 +11,38 @@
   font-family: sans-serif;
 }
 
+.logo {
+  margin: 5%;
+  width: 25%;
+  height: auto;
+}
+
+.mnv {
+  width: 30%;
+  margin: 2%;
+}
+
+.mnv_div {
+  height: max-content;
+}
+
 .form {
-  background-color: #15172b;
+  background-color: rgba(255, 255, 255, 0.062);
   border-radius: 20px;
+  border: white 4px dashed;
   box-sizing: border-box;
-  height: 70vh;
-  padding: 20px;
+  height: max-content;
+  padding: 40px;
   width: 100vh;
+  margin-bottom: 3%;
 }
 
 .submit {
-  background-color: #08d;
+  background-color: #16C79E;
   border-radius: 12px;
   border: 0;
   box-sizing: border-box;
-  color: #eee;
+  color: #171717;
   cursor: pointer;
   font-size: 18px;
   height: 50px;
@@ -42,7 +58,6 @@ label {
   font-size: 18px;
   font-weight: bold;
   margin-bottom: 5px;
-  color: #333;
 }
 
 .title_label {
@@ -61,19 +76,19 @@ input[type="file"] {
   font-weight: bold;
   text-align: center;
   border-radius: 4px;
-  background-color: #2979ff;
-  color: #fff;
+  background-color: #FFF052;
+  color: black;
   cursor: pointer;
   margin-top: 10px;
 }
 
 .upload-btn:hover {
-  background-color: #1565c0;
+  background-color: #16C79E;
+  
 }
 
 .file-name {
-
   font-size: 14px;
   margin-top: 10px;
-  color: whites;
+  color: white;
 }

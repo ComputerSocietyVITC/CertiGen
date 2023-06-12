@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './index.css';
 import './App.css';
+import logo from './logo.png';
+import background_svg from './bg.svg';
+import mnv from './mnv.png';
 
 function App() {
   const [imageFile, setImageFile] = useState(null);
@@ -29,11 +32,11 @@ function App() {
     const maxSize = 4 * 1024 * 1024; // 20MB
   
     if (file && file.size > maxSize) {
-      setImageFile(null);
+      setExcelFile(null);
       window.location.reload(false)
       alert('Excel size exceeds the maximum limit of 4MB.');
     } else {
-      setImageFile(file);
+      setExcelFile(file);
     }
   };
 
@@ -42,11 +45,11 @@ function App() {
     const maxSize = 2 * 1024 * 1024; // 20MB
   
     if (file && file.size > maxSize) {
-      setImageFile(null);
+      setFontFile(null);
       window.location.reload(false)
       alert('Font File size exceeds the maximum limit of 2MB.');
     } else {
-      setImageFile(file);
+      setFontFile(file);
     }
   };
 
@@ -100,7 +103,8 @@ function App() {
   };
 
   return (
-    <div className='App'>
+    <div className='App' style={{ backgroundImage: `url(${background_svg})`, backgroundRepeat: 'no-repeat', backgroundSize: `cover`}}>
+      <img src={logo} className='logo' alt='certi-gen logo'/>
       <div className='form'>
       <h1>Upload Files</h1>
       <form onSubmit={handleSubmit}>
@@ -110,25 +114,42 @@ function App() {
           <input type="file" id="image" accept="image/*" onChange={handleImageUpload} /><br />
           <span className="file-name">{imageFile && imageFile.name}</span>
         </div>
-        <div><br />
-          <label className='title_label'>Upload Excel File<br />Excel file should only have one column named specifically "Name"</label>
+        
+        <div>
+        <br />
+          <label className='title_label'>Upload Excel File:</label>
+          <p>(Excel file should only have one column named specifically "Name")</p>
           <label htmlFor="excel" className="upload-btn">Browse Files</label>
           <input type="file" id="excel" accept=".xlsx, .xls" onChange={handleExcelUpload} /> <br />
           <span className="file-name">{excelFile && excelFile.name}</span>
         </div>
+        
         <div>
-        <br /><label htmlFor="font_file">Upload Font File: <br />Default: "Montserrat Black" if no font file is uploaded</label><br />
-          <input type="file" id="font_file" accept=".ttf" onChange={handleFontFileUpload} />
+        <br />
+          <label className='title_label'>Upload Font File:</label>
+          <p>(Default: "Montserrat Black" if no font file is uploaded)</p>
+          <label htmlFor="font_file" className="upload-btn">Browse Files</label>
+          <input type="file" id="font_file" accept=".ttf" onChange={handleFontFileUpload} /> <br />
+          <span className="file-name">{fontFile && fontFile.name}</span>
         </div>
+
         <div>
-        <br /><label htmlFor="font_size">Enter Font Size ( 1 to 999 ) </label><br /> 
-          <input type="number" id="font_size" min="1" max="999" onChange={handleFSChange} />
+        <br />
+        <label className='title_label'>Font Size:</label>
+        <p>Enter Font Size ( 1 to 999 )</p>
+        <input type="number" id="font_size" min="1" max="999" onChange={handleFSChange} />
         </div>
+        
+        
         <button className="submit" type="submit" disabled={isLoading}>
           {isLoading ? 'Processing...' : 'Generate'}
         </button>
         {error && <p>{error}</p>}
       </form>
+      </div>
+
+      <div className='mnv_div'>
+      <h3>Made with Love 💖 by <br/><a href='https://github.com/ManavvGarg' className=''><img src={mnv} className='mnv' alt='manav garg'></img></a></h3>
       </div>
     </div>
   );
