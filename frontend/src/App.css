@@ -45,7 +45,7 @@
   color: #171717;
   cursor: pointer;
   font-size: 18px;
-  height: 50px;
+  height: max-contents;
   margin-top: 38px;
   outline: 0;
   text-align: center;

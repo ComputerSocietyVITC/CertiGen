@@ -78,8 +78,8 @@ function App() {
 
       formData.append('font_size', fontSize);
 
-      const response = await axios.post('/api/upload', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+      const response = await axios.post('http://localhost:5000/process', formData, {
+        headers: { 'Content-Type': 'multipart/form-data', 'Access-Control-Allow-Origin': '*' },
         responseType: 'blob',
       });
 
@@ -98,7 +98,7 @@ function App() {
       setError('An error occurred while processing the files. Please try again.');
     } finally {
       setLoading(false);
-      window.location.reload(false);
+      //window.location.reload(false);
     }
   };
 
@@ -149,7 +149,7 @@ function App() {
       </div>
 
       <div className='mnv_div'>
-      <h3>Made with Love 💖 by <br/><a href='https://github.com/ManavvGarg' className=''><img src={mnv} className='mnv' alt='manav garg'></img></a></h3>
+      <h3>Made with Love 💖 by <br/><a href='https://github.com/ManavvGarg' target='_blank'><img src={mnv} className='mnv' alt='manav garg'></img></a></h3>
       </div>
     </div>
   );

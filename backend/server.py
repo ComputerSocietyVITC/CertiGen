@@ -6,14 +6,19 @@ import io
 import pandas as pd
 import zipfile
 from waitress import serve
+from flask_cors import CORS, cross_origin
 import logging
+
 logger = logging.getLogger('waitress')
 logger.setLevel(logging.INFO)
 
 app = Flask(__name__)
+CORS(app)
 
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['CORS_HEADERS'] = 'Content-Type'
+
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'xlsx', 'xls', 'ttf'}
 
@@ -35,7 +40,8 @@ def create_image(size, message, font, fontColor, image):
     draw.text(((W-w)/2, (H-h)/2), message, font=font, fill=fontColor)
     return image
 
-@app.route('/upload', methods=['POST'])
+@app.route('/process', methods=['POST'])
+@cross_origin()
 def upload_files():
     global font_flag 
     font_flag = False
