@@ -1,0 +1,97 @@
+body {
+  height: 100%;
+  width: 100%;
+}
+
+.App {
+  text-align: center;
+  min-height: 100%;
+  min-width: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 2vh;
+  font-family: sans-serif;
+}
+
+.logo {
+  margin: 5%;
+  width: 25%;
+  height: auto;
+}
+
+.mnv {
+  width: 30%;
+  margin: 2%;
+}
+
+.mnv_div {
+  height: max-content;
+}
+
+.form {
+  background-color: rgba(255, 255, 255, 0.062);
+  border-radius: 20px;
+  border: white 4px dashed;
+  box-sizing: border-box;
+  height: max-content;
+  padding: 40px;
+  width: 100vh;
+  margin-bottom: 3%;
+}
+
+.submit {
+  background-color: #16c79e;
+  border-radius: 12px;
+  border: 0;
+  box-sizing: border-box;
+  color: #171717;
+  cursor: pointer;
+  font-size: 18px;
+  height: max-contents;
+  margin-top: 38px;
+  outline: 0;
+  text-align: center;
+  width: max-content;
+  padding: 20px;
+}
+
+label {
+  display: block;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.title_label {
+  color: white;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.upload-btn {
+  display: inline-block;
+  padding: 10px 15px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 4px;
+  background-color: #fff052;
+  color: black;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.upload-btn:hover {
+  background-color: #16c79e;
+}
+
+.file-name {
+  font-size: 14px;
+  margin-top: 10px;
+  color: white;
+}
