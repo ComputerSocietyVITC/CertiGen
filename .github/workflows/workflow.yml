@@ -28,6 +28,8 @@ jobs:
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v3
+      - name: Setup dependencies
+        run: npm i
       - name: Building
         run: npm run build
         
