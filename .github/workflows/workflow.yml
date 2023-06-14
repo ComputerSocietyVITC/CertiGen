@@ -32,6 +32,11 @@ jobs:
         run: npm i
       - name: Building
         run: npm run build
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          path: dist
+
 
   # Deployment job
   deploy:
